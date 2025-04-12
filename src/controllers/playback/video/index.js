@@ -1392,11 +1392,17 @@ export default function (view) {
                 break;
             }
             case ']':
+                e.preventDefault();
+                playbackManager.increasePlaybackRate(currentPlayer, 0.5);
+                break;
             case '>': // Shift+.
                 e.preventDefault();
                 playbackManager.increasePlaybackRate(currentPlayer);
                 break;
             case '[':
+                e.preventDefault();
+                playbackManager.decreasePlaybackRate(currentPlayer, 0.5);
+                break;
             case '<': // Shift+,
                 e.preventDefault();
                 playbackManager.decreasePlaybackRate(currentPlayer);

@@ -8,8 +8,6 @@ import 'material-design-icons-iconfont';
 
 let currentPlayer;
 let osdElement;
-let iconElement;
-let progressElement;
 let textElement;
 
 let enableAnimation;
@@ -35,8 +33,6 @@ function ensureOsdElement() {
         elem.classList.add('iconOsd-hidden');
         elem.classList.add('playbackSpeedOsd');
         elem.innerHTML = getOsdElementHtml();
-
-        iconElement = elem.querySelector('.material-icons');
 
         textElement = elem.querySelector('.iconOsdText');
 
@@ -101,8 +97,6 @@ function hideOsd() {
 }
 
 function updatePlayerPlaybackSpeedState(speed) {
-
-
     if (textElement) {
         textElement.textContent = speed.toFixed(2) + 'x';
     }

@@ -1113,11 +1113,19 @@ export class PlaybackManager {
             }
         };
 
-        self.increasePlaybackRate = function (player) {
+        self.increasePlaybackRate = function (player, minRateIncrease) {
             player = player || self._currentPlayer;
             if (player) {
                 const current = self.getPlaybackRate(player);
                 const supported = self.getSupportedPlaybackRates(player);
+
+                if (
+                    minRateIncrease
+                    && supported.some(s => Math.abs(s.id - (current + minRateIncrease)) < 0.001)
+                ) {
+                    self.setPlaybackRate(current + minRateIncrease, player);
+                    return;
+                }
 
                 let index = -1;
                 for (let i = 0, length = supported.length; i < length; i++) {
@@ -1132,11 +1140,19 @@ export class PlaybackManager {
             }
         };
 
-        self.decreasePlaybackRate = function (player) {
+        self.decreasePlaybackRate = function (player, minRateDecrease) {
             player = player || self._currentPlayer;
             if (player) {
                 const current = self.getPlaybackRate(player);
                 const supported = self.getSupportedPlaybackRates(player);
+
+                if (
+                    minRateDecrease
+                    && supported.some(s => Math.abs(s.id - (current - minRateDecrease)) < 0.001)
+                ) {
+                    self.setPlaybackRate(current - minRateDecrease, player);
+                    return;
+                }
 
                 let index = -1;
                 for (let i = 0, length = supported.length; i < length; i++) {
@@ -3966,7 +3982,7 @@ export class PlaybackManager {
             player.setPlaybackRate(value);
 
             if (current !== value) {
-                Events.trigger(player, 'playbackratechange')
+                Events.trigger(player, 'playbackratechange');
             }
 
             // Save the new playback rate in the browser session, to restore when playing a new video.
