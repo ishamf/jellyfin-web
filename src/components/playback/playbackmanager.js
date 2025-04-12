@@ -1154,7 +1154,20 @@ export class PlaybackManager {
         self.getSupportedPlaybackRates = function (player) {
             player = player || self._currentPlayer;
             if (player?.getSupportedPlaybackRates) {
-                return player.getSupportedPlaybackRates();
+                const playbackRatesFromPlayer = [...player.getSupportedPlaybackRates()];
+
+                // Add 3x and 4x if it doesn't exist
+                if (playbackRatesFromPlayer[playbackRatesFromPlayer.length - 1].id < 3) {
+                    playbackRatesFromPlayer.push({
+                        id: 3,
+                        name: '3x'
+                    }, {
+                        id: 4,
+                        name: '4x'
+                    });
+                }
+
+                return playbackRatesFromPlayer;
             }
             return [];
         };
@@ -2236,16 +2249,16 @@ export class PlaybackManager {
             const getItemAndParts = async function (item) {
                 if (
                     item.PartCount && item.PartCount > 1
-                    && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
+                    && [BaseItemKind.Episode, BaseItemKind.Movie].includes(item.Type)
                 ) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
                     const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
                     if (additionalParts.Items.length) {
-                        return [ item, ...additionalParts.Items ];
+                        return [item, ...additionalParts.Items];
                     }
                 }
-                return [ item ];
+                return [item];
             };
 
             return Promise.all(items.map(getItemAndParts));
@@ -2919,7 +2932,7 @@ export class PlaybackManager {
                                 });
                             } else {
                                 if (item.AlbumId != null) {
-                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
+                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function (result) {
                                         mediaSource.albumNormalizationGain = result.NormalizationGain;
                                         return mediaSource;
                                     });
