@@ -1391,13 +1391,19 @@ export default function (view) {
                 playbackManager.seekPercent(percent, currentPlayer);
                 break;
             }
+            case ']':
             case '>': // Shift+.
                 e.preventDefault();
                 playbackManager.increasePlaybackRate(currentPlayer);
                 break;
+            case '[':
             case '<': // Shift+,
                 e.preventDefault();
                 playbackManager.decreasePlaybackRate(currentPlayer);
+                break;
+            case 'Backspace':
+                e.preventDefault();
+                playbackManager.setPlaybackRate(1, currentPlayer);
                 break;
             case 'PageUp':
                 if (!e.shiftKey) {

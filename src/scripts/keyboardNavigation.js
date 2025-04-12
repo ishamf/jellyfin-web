@@ -12,6 +12,7 @@ import appSettings from './settings/appSettings';
  * Key name mapping.
  */
 const KeyNames = {
+    8: 'Backspace',
     13: 'Enter',
     19: 'Pause',
     27: 'Escape',
