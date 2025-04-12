@@ -181,6 +181,8 @@ function loadPlatformFeatures() {
         import('./components/playback/volumeosd');
     }
 
+    import('./components/playback/playbackrateosd');
+
     /* eslint-disable-next-line compat/compat */
     if (navigator.mediaSession || window.NativeShell) {
         import('./components/playback/mediasession');

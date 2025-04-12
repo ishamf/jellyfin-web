@@ -3948,7 +3948,13 @@ export class PlaybackManager {
 
     setPlaybackRate(value, player = this._currentPlayer) {
         if (player?.setPlaybackRate) {
+            const current = this.getPlaybackRate(player);
+
             player.setPlaybackRate(value);
+
+            if (current !== value) {
+                Events.trigger(player, 'playbackratechange')
+            }
 
             // Save the new playback rate in the browser session, to restore when playing a new video.
             sessionStorage.setItem('playbackRateSpeed', value);
