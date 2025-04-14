@@ -1172,11 +1172,17 @@ export class PlaybackManager {
             if (player?.getSupportedPlaybackRates) {
                 const playbackRatesFromPlayer = [...player.getSupportedPlaybackRates()];
 
-                // Add 3x and 4x if it doesn't exist
-                if (playbackRatesFromPlayer[playbackRatesFromPlayer.length - 1].id < 3) {
+                // Add extra speeds if they don't exist
+                if (playbackRatesFromPlayer[playbackRatesFromPlayer.length - 1].id < (2.5 - 0.001)) {
                     playbackRatesFromPlayer.push({
+                        id: 2.5,
+                        name: '2.5x'
+                    }, {
                         id: 3,
                         name: '3x'
+                    }, {
+                        id: 3.5,
+                        name: '3.5x'
                     }, {
                         id: 4,
                         name: '4x'
